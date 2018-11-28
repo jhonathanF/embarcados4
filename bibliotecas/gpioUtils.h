@@ -46,4 +46,5 @@ void configurarADC1(uint32_t EMUX, uint32_t SSMUX, uint32_t SSCTL, uint32_t SS, 
 void configurarFilaADC1(uint32_t SSMUX, uint32_t SSCTL, int fila);
 void configurarUART0(uint32_t RCGcUART,volatile uint32_t *AFSEL,volatile uint32_t *PCTL, int IBDR, int FBRD, uint32_t LCRH, uint32_t CC, uint32_t CTL);
 void escreverUART0(unsigned char data);
+unsigned char lerUART(void);
 #endif /* BIBLIOTECAS_GPIOUTILS_H_ */

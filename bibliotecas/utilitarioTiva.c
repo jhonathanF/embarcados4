@@ -1,9 +1,23 @@
 #include "utilitarioTiva.h"
 
+uint32_t microsAtual;
+uint32_t millisAtual;
+
 void configurarSysTick(uint32_t reload, uint32_t ctrl)
 {
     NVIC_ST_RELOAD_R = reload; //Pode dividir
     NVIC_ST_CTRL_R = ctrl;
+}
+
+void trataST()
+{
+    microsAtual += 4;
+
+    if ((microsAtual / ((millisAtual + 1) * 1000)) == 1)
+    {
+        millisAtual++;
+    }
+
 }
 
 void delay(uint32_t millis)
