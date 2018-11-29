@@ -160,6 +160,6 @@ void escreverUART0(unsigned char data)
 }
 
 unsigned char lerUART(void){
-    while ((UART0_FR_R & UART_FR_RXFE) != 0) { }
+
     return((unsigned char)(UART0_DR_R&0xFF));
 }

@@ -40,18 +40,8 @@ void setup()
     //-----CONFIGURAR INTERRUPÇÕES-----//
 
     //-----CONFIGURAR PINOS-----//
-    configurarPino(&GPIO_PORTA_DIR_R, &GPIO_PORTA_DEN_R, 2, INPUT);
-    configurarPino(&GPIO_PORTA_DIR_R, &GPIO_PORTA_DEN_R, 3, INPUT);
-    configurarPino(&GPIO_PORTA_DIR_R, &GPIO_PORTA_DEN_R, 4, INPUT);
-    configurarPino(&GPIO_PORTB_DIR_R, &GPIO_PORTB_DEN_R, 2, INPUT);
-    configurarPino(&GPIO_PORTB_DIR_R, &GPIO_PORTB_DEN_R, 3, INPUT);
-    configurarPino(&GPIO_PORTC_DIR_R, &GPIO_PORTC_DEN_R, 4, INPUT);
-    configurarPino(&GPIO_PORTC_DIR_R, &GPIO_PORTC_DEN_R, 5, INPUT);
-    configurarPino(&GPIO_PORTC_DIR_R, &GPIO_PORTC_DEN_R, 6, INPUT);
-    configurarPino(&GPIO_PORTC_DIR_R, &GPIO_PORTC_DEN_R, 7, INPUT);
-    configurarPino(&GPIO_PORTD_DIR_R, &GPIO_PORTD_DEN_R, 6, INPUT);
+    configurarPino(&GPIO_PORTA_DIR_R, &GPIO_PORTA_DEN_R, 4, OUTPUT);
 
-    configurarPino(&GPIO_PORTF_DIR_R, &GPIO_PORTF_DEN_R, 4, INPUT);
 
     configurarUART0(0x01, &GPIO_PORTA_AFSEL_R, &GPIO_PORTA_PCTL_R, 8, 44, 0x70,
                     0x00, 0x301);
@@ -92,13 +82,18 @@ int main(void)
     data.lightness = 0;
     data.temperature = 0;
     setup();
-    escreverUART0(116);
-    escreverUART0(104);
-    escreverUART0(105);
+    setarBit(&GPIO_PORTA_DATA_R, 4, 0);
     while (1)
     {
         sendStruct();
-        delay(1000);
+        delay(50);
+        char led = lerUART();
+        if(led != 0){
+            if(led == '0')
+                setarBit(&GPIO_PORTA_DATA_R, 4, 0);
+            else
+                setarBit(&GPIO_PORTA_DATA_R, 4, 1);
+        }
         data.distance = 5;
         data.lightness = ADC0_SSFIFO0_R;
         data.temperature = 0;
